@@ -1,6 +1,7 @@
 ﻿using EasyKafka.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace EasyKafka;
 
@@ -25,8 +26,12 @@ public class KafkaRegistrationConfigurator : IKafkaRegistrationConfigurator
         return this;
     }
 
-    public void Build()
+    internal void Build()
     {
+        _services.TryAddSingleton<IKafkaServiceBus, KafkaServiceBus>();
+        _services.AddOptions<KafkaOption>().BindConfiguration("KafkaOption").ValidateDataAnnotations().ValidateOnStart();
+        _services.AddSingleton((IServiceProvider sp) => sp.GetRequiredService<IOptions<KafkaOption>>().Value);
+
         KafkaConsumerRegistrar.Register(_services);
     }
 }

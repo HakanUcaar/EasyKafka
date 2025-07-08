@@ -17,7 +17,7 @@ public static class KafkaTopicNameRegistrar
 
         // Topic oluştur
         var result = await kafkaServiceBus.CreateTopicAsync(topic);
-        if (!result)
+        if (!result.IsSuccess)
         {
             throw new InvalidOperationException($"Topic {topic} creation failed");
         }

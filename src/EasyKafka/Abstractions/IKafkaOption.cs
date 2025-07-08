@@ -1,8 +1,5 @@
-﻿using EasyKafka.Abstractions;
-
-namespace EasyKafka;
-
-public class KafkaOption : IKafkaOption
+﻿namespace EasyKafka.Abstractions;
+public interface IKafkaOption
 {
     public string Host { get; set; }
     public string Port { get; set; }

@@ -1,12 +1,7 @@
 ﻿using Confluent.Kafka;
-using EasyKafka.Constants;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.Retry;
-using System;
-using System.Text.Json;
 
 namespace EasyKafka.Abstractions;
 
