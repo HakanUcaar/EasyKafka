@@ -1,10 +1,9 @@
 ﻿namespace EasyKafka.Abstractions;
 public interface IKafkaOption
 {
-    public string Host { get; set; }
-    public string Port { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
+    public string[] Host { get; set; }
+    public string? Username { get; set; }
+    public string? Password { get; set; }
     public int TimeoutAsMs { get; set; }
 
     public short NumPartitions { get; set; }
@@ -13,7 +12,7 @@ public interface IKafkaOption
 
     public short MinSyncReplicas { get; set; }
 
-    public string GroupId { get; set; }
+    public string? GroupId { get; set; }
 
     public int ConsumeItemCount { get; set; }
 }

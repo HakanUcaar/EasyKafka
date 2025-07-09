@@ -1,11 +1,11 @@
 ﻿using EasyKafka.Constants;
+using Microsoft.Extensions.Hosting;
 
 namespace EasyKafka.Abstractions;
 
-public interface IKafkaHostService
+public interface IKafkaHostService : IHostedService
 {
     //ConsumerState Status { get; }
     //Type ConsumerType { get; }
-    Task StartAsync(CancellationToken cancellationToken);
-    Task StopAsync(CancellationToken cancellationToken);
+
 }

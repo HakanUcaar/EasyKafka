@@ -1,6 +1,5 @@
 ﻿using EasyKafka.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace EasyKafka;
@@ -28,20 +27,14 @@ public static class KafkaConsumerRegistrar
 
                 if (kafkaConsumerInterface != null)
                 {
-                    // T türünü al
                     var messageType = kafkaConsumerInterface.GetGenericArguments()[0];
-
-                    // KafkaHostService<T> için doğru türü oluştur
                     var hostedServiceType = typeof(KafkaHostService<>).MakeGenericType(messageType);
 
                     collection.AddSingleton(typeof(IHostedService), provider =>
                     {
-
                         var consumer = Activator.CreateInstance(hostedServiceType, provider, consumerType);
 
                         if (consumer is null) throw new NullReferenceException("The provided consumer instance is null. Make sure to initialize the consumer before adding it.");
-
-                        // KafkaHostedService<T> örneğini oluştur ve döndür
                         return consumer;
                     });
                 }

@@ -37,15 +37,7 @@ public class KafkaServiceBus(KafkaOption kafkaOption, ILogger<KafkaServiceBus> l
 
 
         var metadata = adminClient.GetMetadata(TimeSpan.FromSeconds(10));
-
-
-        var topicNameAsError = $"{topicName}_error";
-
-
         var topicExists = metadata.Topics.Exists(t => t.Topic == topicName);
-
-        var topicAsErrorExists = metadata.Topics.Exists(t => t.Topic == topicNameAsError);
-
 
         var config = new Dictionary<string, string>
         {
@@ -77,21 +69,6 @@ public class KafkaServiceBus(KafkaOption kafkaOption, ILogger<KafkaServiceBus> l
 
             logger.LogInformation($"Topic({topicName} has created)");
         }
-
-
-        if (!topicAsErrorExists)
-        {
-            await adminClient.CreateTopicsAsync([
-                new TopicSpecification
-                {
-                    Name = topicNameAsError, NumPartitions = kafkaOption.NumPartitions,
-                    ReplicationFactor = kafkaOption.ReplicationFactor, Configs = config
-                }
-            ]);
-
-            logger.LogInformation($"Topic({topicNameAsError} has created)");
-        }
-
 
         return CustomResult.Success();
     }

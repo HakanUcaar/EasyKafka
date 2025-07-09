@@ -1,11 +1,10 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace EasyKafka.Abstractions;
 
-public class KafkaHostService<TMessage>(IServiceProvider serviceProvider, Type consumerType) : IKafkaHostService, IHostedService where TMessage : class
+public class KafkaHostService<TMessage>(IServiceProvider serviceProvider, Type consumerType) : IKafkaHostService where TMessage : class
 {
     private IConsumer<string, TMessage>? _consumer;
     private IKafkaConsumer<TMessage>? _virtualConsumer;
@@ -14,7 +13,7 @@ public class KafkaHostService<TMessage>(IServiceProvider serviceProvider, Type c
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        await Task.Run(()=> Consume(cancellationToken)).ConfigureAwait(false);
+        Task.Run(()=> Consume(cancellationToken)).ConfigureAwait(false);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

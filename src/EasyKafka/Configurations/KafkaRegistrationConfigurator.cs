@@ -28,9 +28,15 @@ public class KafkaRegistrationConfigurator : IKafkaRegistrationConfigurator
 
     internal void Build()
     {
-        _services.TryAddSingleton<IKafkaServiceBus, KafkaServiceBus>();
-        _services.AddOptions<KafkaOption>().BindConfiguration("KafkaOption").ValidateDataAnnotations().ValidateOnStart();
+        _services.AddOptions<KafkaOption>().BindConfiguration("KafkaOption").ValidateOnStart();
+
+        _services.AddOptions<KafkaOption>()
+         .BindConfiguration("KafkaOption")
+        .Validate(opt => opt.Host != null && opt.Host.Length > 0, "En az bir host gereklidir")
+         .ValidateOnStart();
+
         _services.AddSingleton((IServiceProvider sp) => sp.GetRequiredService<IOptions<KafkaOption>>().Value);
+        _services.TryAddSingleton<IKafkaServiceBus, KafkaServiceBus>();                
 
         KafkaConsumerRegistrar.Register(_services);
     }
